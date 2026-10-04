@@ -237,6 +237,21 @@ async function refresh() {
   }
 }
 
+// Logged out, GitHub allows 60 calls an hour, so the page refreshes less often. A hidden tab
+// skips its turn and catches up when shown again.
+function autoRefresh() {
+  const every = () => (viewer ? 3 : 15) * 60 * 1000;
+  let last = Date.now();
+  const tick = () => {
+    if (document.hidden || busy || Date.now() - last < every()) return;
+    last = Date.now();
+    refresh();
+  };
+  setInterval(tick, 30 * 1000);
+  document.addEventListener('visibilitychange', tick);
+  $('refresh').addEventListener('click', () => (last = Date.now()));
+}
+
 function renderPicker() {
   $('controls').hidden = true;
   const examples = ['pollomarzo/oak-demo-journal', 'pollomarzo/oak-demo2-journal'];
@@ -281,6 +296,7 @@ async function main() {
   if (!journal || !JOURNAL_RE.test(journal)) return renderPicker();
 
   $('refresh').addEventListener('click', refresh);
+  autoRefresh();
   try {
     const snap = JSON.parse(store.get(SNAPSHOT_KEY) || 'null');
     if (snap?.journal === journal) render(snap.model, { cached: true });
