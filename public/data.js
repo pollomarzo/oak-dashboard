@@ -344,7 +344,7 @@ export async function loadPaper(p, j) {
     const since = latest ? (versionOnZenodo(latest.name) ? `; ${latest.name} is published, main has changed since` : `; latest tag ${latest.name}`) : '';
     s.state = { key: 'tag', text: `Ready to tag${since}`, href: `https://github.com/${repo}/tags`, command: 'git tag vX.Y.Z && git push origin vX.Y.Z' };
   } else if (!doi) {
-    s.state = { key: 'nodoi', text: 'No DOI yet', href: s.links.prepare };
+    s.state = { key: 'nodoi', text: 'No DOI yet: run prepare once the paper is accepted', href: s.links.prepare };
   } else if (tagOnMain && versionOnZenodo(tagOnMain.name)) {
     s.state = { key: 'published', text: `Published ${tagOnMain.name}`, href: zenodo.recordUrl, ok: true };
   } else if (zenodo?.error) {

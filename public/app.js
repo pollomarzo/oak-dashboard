@@ -114,7 +114,7 @@ function prLine(pr) {
   if (pr.draft) notes.push('draft');
   if (pr.kind === 'doi') notes.push('DOI PR');
   if (pr.kind === 'upgrade') notes.push('engine upgrade');
-  notes.push(`checks ${CHECKS_TEXT[pr.checks]}`);
+  if (!pr.noJournalChecks) notes.push(`checks ${CHECKS_TEXT[pr.checks]}`);
   if (pr.gated.length) notes.push(pr.approved ? 'code owner approved' : `needs code-owner review (${pr.gated.length === 1 ? pr.gated[0] : `${pr.gated.length} gated files`})`);
   if (pr.noJournalChecks) notes.push('no checks ran: close and reopen it');
   const extra = [];
@@ -138,7 +138,7 @@ function paperRow(p) {
     body.push(h('p', { class: 'state' }, p.state.href ? link(p.state.href, p.state.text) : p.state.text, p.state.run ? [' ', link(p.state.run, 'failed run')] : null));
     if (p.state.command) body.push(h('code', { class: 'cmd' }, p.state.command));
     const facts = [];
-    facts.push(p.doi ? h('span', {}, 'DOI ', p.zenodo ? link(p.zenodo.recordUrl, p.doi) : p.doi) : h('span', {}, 'no DOI'));
+    facts.push(p.doi ? h('span', {}, 'DOI ', p.publishedOnZenodo ? link(p.zenodo.recordUrl, p.doi) : p.doi) : h('span', {}, 'no DOI'));
     if (p.sandbox) facts.push(h('span', { class: 'tag warn-tag', title: 'Zenodo sandbox DOI; run prepare with sandbox off for a real one' }, 'sandbox'));
     if (p.latestTag) facts.push(h('span', {}, `latest tag ${p.latestTag}`));
     facts.push(link(p.links.prepare, 'prepare'));
@@ -195,7 +195,7 @@ function render(model, { cached = false } = {}) {
       {},
       h('h2', {}, 'Papers'),
       sorted.length ? h('ul', { class: 'papers' }, sorted.map(paperRow)) : h('p', { class: 'muted' }, 'No papers found in the registry or among the owner\'s repos.'),
-      h('p', { class: 'muted small' }, `Papers come from registry/papers.yml and from ${j.scanned} repos of ${j.journal.split('/')[0]} whose pins.yml points at this journal.`),
+      h('p', { class: 'muted small' }, `Papers come from registry/papers.yml and from the ${j.scanned} repos of ${j.journal.split('/')[0]} checked for a pins.yml that points at this journal.`),
     ),
   );
 
