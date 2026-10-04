@@ -2,7 +2,8 @@
 // stores and logs nothing.
 const json = (body, status = 200) => Response.json(body, { status, headers: { 'Cache-Control': 'no-store' } });
 
-export async function onRequestPost({ request, env }) {
+export async function onRequest({ request, env }) {
+  if (request.method !== 'POST') return json({ error: 'Use POST.' }, 405);
   const origin = new URL(request.url).origin;
   if (request.headers.get('Origin') !== origin) return json({ error: 'Cross-origin request refused.' }, 403);
   if (!env.GITHUB_CLIENT_ID || !env.GITHUB_CLIENT_SECRET) return json({ error: 'Login is not configured on this deployment.' }, 503);
