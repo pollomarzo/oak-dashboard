@@ -1,0 +1,9 @@
+{
+  "name": "oak-dashboard",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "live": "node test/live.mjs",
+    "deploy": "npx -y wrangler@4 pages deploy"
+  }
+}

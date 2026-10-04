@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>oak dashboard</title>
+<meta name="description" content="What waits on a journal's editors across its oak paper repos. Read-only.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/style.css">
+<script type="module" src="/app.js"></script>
+</head>
+<body>
+<header class="bar">
+  <a class="brand" href="/">oak dashboard</a>
+  <div id="controls" class="controls">
+    <span id="updated" class="muted"></span>
+    <button id="refresh" type="button">Refresh</button>
+  </div>
+  <div id="account" class="account"></div>
+</header>
+<div id="status" class="wrap"></div>
+<main id="main" class="wrap"></main>
+<footer class="wrap muted small">
+  <p id="rate"></p>
+  <p>Read-only: it never approves, merges or runs anything; every item links to GitHub or Zenodo. The login asks for no scopes, so the token can read public data only and is kept in this tab until you close it. <a href="https://github.com/pollomarzo/oak-dashboard">Source</a></p>
+</footer>
+</body>
+</html>
