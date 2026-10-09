@@ -223,7 +223,7 @@ async function loadPr(pr, ctx) {
     url: pr.html_url,
     author: pr.user?.login ?? 'unknown',
     draft: !!pr.draft,
-    kind: sameRepo && pr.head.ref === oak.DOI_BRANCH ? 'doi' : sameRepo && pr.head.ref.startsWith(oak.UPGRADE_BRANCH_PREFIX) ? 'upgrade' : 'author',
+    kind: sameRepo && pr.head.ref === oak.DOI_BRANCH ? 'doi' : sameRepo && oak.isUpgradeBranch(pr.head.ref) ? 'upgrade' : 'author',
     checks: checksSummary(checkRuns, held),
     heldRun: held?.html_url ?? null,
     noJournalChecks: bot && !held && !checkRuns.some((r) => r.name === oak.REQUIRED_CHECK),

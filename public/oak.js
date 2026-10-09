@@ -1,12 +1,14 @@
 // Names copied from the oak engine (Open-Scholar-Nexus/oaktree-sapling). Keep in step with:
 // LABEL_EDITOR_ACTION and LABEL_ZENODO_FAILED in src/preview.ts, the branch in openDoiPr in
-// src/gh.ts, UPGRADE_BRANCH_PREFIX in src/upgrade.ts, ENGINE_ID_SENTINEL in src/schema.ts,
+// src/gh.ts, UPGRADE_BRANCH in src/upgrade.ts, ENGINE_ID_SENTINEL in src/schema.ts,
 // recordUrlForDoi in src/preview.ts, and the workflow files in templates/*/.github/workflows.
 
 export const LABEL_EDITOR_ACTION = 'editor-action-needed';
 export const LABEL_ZENODO_FAILED = 'zenodo-publish-failed';
 export const DOI_BRANCH = 'zenodo-doi';
-export const UPGRADE_BRANCH_PREFIX = 'oak/upgrade-';
+// The weekly bump uses UPGRADE_BRANCH; a picked version gets `${UPGRADE_BRANCH}-<tag>`.
+export const UPGRADE_BRANCH = 'oak/upgrade';
+export const isUpgradeBranch = (ref) => ref === UPGRADE_BRANCH || ref.startsWith(`${UPGRADE_BRANCH}-`);
 export const ENGINE_ID_SENTINEL = 'CHANGE-ME-template-placeholder';
 
 export const PINS_PATH = '.github/actions/engine/pins.yml';
